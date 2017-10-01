@@ -5,6 +5,7 @@ from kivy.properties import NumericProperty, ReferenceListProperty,\
 from kivy.vector import Vector
 from kivy.clock import Clock
 from kivy.core.window import Window
+from time import sleep
 
 
 class PongPaddle(Widget):
@@ -34,39 +35,50 @@ class PongGame(Widget):
     ball = ObjectProperty(None)
     player1 = ObjectProperty(None)
     player2 = ObjectProperty(None)
+    motion = 10
     
-
     def __init__(self, **kwargs):
         super(PongGame, self).__init__(**kwargs)
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
-        self._keyboard.bind(on_key_down = self._on_keyboard_down)       
+        self._keyboard.bind(on_key_down = self._on_keyboard_down)
+        self._keyboard.bind(on_key_up = self._on_keyboard_up)
 
     def _keyboard_closed(self):
-        self._keyboard.unbind(on_key_down = self.on_keyboard_down)
+        self._keyboard.unbind(on_key_down = self._on_keyboard_down)
+        self._keyboard.unbind(on_key_up = self._on_keyboard_up)
         self._keyboard = None
 
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[1] == 'w':
-            self.player1.center_y += 20
+            self.player1.center_y += self.motion
+            self.motion += 2
             if self.player1.center_y > self.height:
                 self.player1.center_y = self.height
         if keycode[1] == "s":
-            self.player1.center_y -=20
+            self.player1.center_y -= self.motion
+            self.motion += 2
             if self.player1.center_y < 0:
                 self.player1.center_y = 0
         if keycode[1] == "up":
-            self.player2.center_y +=20
+            self.player2.center_y += self.motion
+            self.motion += 2
             if self.player2.center_y > self.height:
                 self.player2.center_y = self.height
         if keycode[1] == "down":
-            self.player2.center_y -=20
+            self.player2.center_y -= self.motion
+            self.motion += 2
             if self.player2.center_y < 0:
                 self.player2.center_y = 0
         return True
-        
+
+    def _on_keyboard_up(self, keyboard, keycode):
+	    self.motion = 10
+	    return True
+
     def serve_ball(self, vel=(4, 0)):
         self.ball.center = self.center
         self.ball.velocity = vel
+        sleep(0.1)
 
     def update(self,dt):
         self.ball.move()
