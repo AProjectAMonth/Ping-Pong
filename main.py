@@ -124,8 +124,7 @@ class PongGame(Widget):
         if touch.x > self.width - self.width / 3:
             self.player2.center_y = touch.y
 
-from functools import partial
-
+	
 class PongApp(App):
     event = None
     def build(self):
