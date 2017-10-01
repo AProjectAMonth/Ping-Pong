@@ -6,7 +6,11 @@ from kivy.vector import Vector
 from kivy.clock import Clock
 from kivy.core.window import Window
 from time import sleep
-from pykeyboard import PyKeyboard
+import sys
+try:
+    from pykeyboard import PyKeyboard
+except ImportError:
+    sys.exit("You need to install pykeyboard. Install it by running 'pip install pyuserinput'")
 
 kb = PyKeyboard()
 auto_mode = 1
