@@ -7,6 +7,7 @@ from kivy.clock import Clock
 from kivy.core.window import Window
 from time import sleep
 from pykeyboard import PyKeyboard
+
 kb = PyKeyboard()
 auto_mode = 1
 
@@ -88,7 +89,7 @@ class PongGame(Widget):
         self.player1.bounce_ball(self.ball)
         self.player2.bounce_ball(self.ball)
 
-        if (auto_mode == 1 and self.ball.velocity_x > 0 and self.player1.center_y != self.height//2):
+        if (auto_mode == 1 and self.ball.velocity_x > 0 and abs(self.player1.center_y - self.height//2) > 10):
             if (self.player1.center_y < self.height//2):
                 kb.press_key('w')
                 kb.release_key('w')
@@ -97,7 +98,7 @@ class PongGame(Widget):
                 kb.release_key('s')
 
         if (auto_mode == 1 and self.ball.velocity_x < 0):
-            if(self.player1.center_y != self.ball.center_y):
+            if(abs(self.player1.center_y - self.ball.center_y) > 10):
                 if (self.player1.center_y < self.ball.center_y):
                     kb.press_key('w')
                     kb.release_key('w')
