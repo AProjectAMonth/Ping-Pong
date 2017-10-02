@@ -53,22 +53,22 @@ class PongGame(Widget):
             self.player1.center_y += self.motion
             self.motion += 2
             if self.player1.center_y > self.height:
-                self.player1.center_y = self.height
+                self.player1.center_y = 0
         if keycode[1] == "s":
             self.player1.center_y -= self.motion
             self.motion += 2
             if self.player1.center_y < 0:
-                self.player1.center_y = 0
+                self.player1.center_y = self.height
         if keycode[1] == "up":
             self.player2.center_y += self.motion
             self.motion += 2
             if self.player2.center_y > self.height:
-                self.player2.center_y = self.height
+                self.player2.center_y = 0
         if keycode[1] == "down":
             self.player2.center_y -= self.motion
             self.motion += 2
             if self.player2.center_y < 0:
-                self.player2.center_y = 0
+                self.player2.center_y = self.height
         return True
 
     def _on_keyboard_up(self, keyboard, keycode):
@@ -124,7 +124,6 @@ class PongGame(Widget):
         if touch.x > self.width - self.width / 3:
             self.player2.center_y = touch.y
 
-	
 class PongApp(App):
     event = None
     def build(self):
