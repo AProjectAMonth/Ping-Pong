@@ -7,12 +7,15 @@ from kivy.clock import Clock
 from kivy.core.window import Window
 from time import sleep
 import sys
+
+#pyuserinput is not required, as well as not working with kivy code in python 3.4
+"""
 try:
     from pykeyboard import PyKeyboard
 except ImportError:
     sys.exit("You need to install pykeyboard. Install it by running 'pip install pyuserinput'")
 
-kb = PyKeyboard()
+kb = PyKeyboard()"""
 auto_mode = 1
 
 class PongPaddle(Widget):
@@ -93,22 +96,38 @@ class PongGame(Widget):
         self.player1.bounce_ball(self.ball)
         self.player2.bounce_ball(self.ball)
 
-        if (auto_mode == 1 and self.ball.velocity_x > 0 and abs(self.player1.center_y - self.height//2) > 10):
+        """if (auto_mode == 1 and self.ball.velocity_x > 0 and abs(self.player1.center_y - self.height//2) > 10):
             if (self.player1.center_y < self.height//2):
-                kb.press_key('w')
-                kb.release_key('w')
+                self.player1.center_y += self.motion
+                self.motion += 2
+                if self.player1.center_y > self.height:
+                        self.player1.center_y = self.height
+                #kb.press_key('w')
+                #kb.release_key('w')
             else:
-                kb.press_key('s')
-                kb.release_key('s')
+                self.player1.center_y -= self.motion
+                self.motion += 2
+                if self.player1.center_y < 0:
+                        self.player1.center_y = 0
+                #kb.press_key('s')
+                #kb.release_key('s')"""
 
         if (auto_mode == 1 and self.ball.velocity_x < 0):
             if(abs(self.player1.center_y - self.ball.center_y) > 10):
                 if (self.player1.center_y < self.ball.center_y):
-                    kb.press_key('w')
-                    kb.release_key('w')
+		    self.player1.center_y += self.motion
+                    self.motion += 2
+		    if self.player1.center_y > self.height: # checking if paddle goes above max height
+                        self.player1.center_y = self.height
+                    #kb.press_key('w')
+                    #kb.release_key('w')
                 else:
-                    kb.press_key('s')
-                    kb.release_key('s')
+		    self.player1.center_y -= self.motion
+                    self.motion += 2
+		    if self.player1.center_y < 0: # if paddle goes below zero
+                        self.player1.center_y = 0
+                    #kb.press_key('s')
+                    #kb.release_key('s')
 
 
         # bounce ball off bottom or top
