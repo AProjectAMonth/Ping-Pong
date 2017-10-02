@@ -180,4 +180,3 @@ class PongApp(App):
 if __name__ == '__main__':
     app = PongApp()
     app.run()
-    
